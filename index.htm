@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MD5 xesh algoritmi</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f3f5ff;--ink:#0d1030;--mute:#4d5379;--blue:#2b3bff;--mint:#7cf5c6;--card:#fff;--line:#d6dbf5;--bad:#e0334a;--ok:#0c9b6a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0c1f;--ink:#eef0ff;--mute:#9aa0c9;--card:#12152e;--line:#262b54;--bad:#ff6b80;--ok:#5cf0b9}}
+:root[data-theme="dark"]{--bg:#0a0c1f;--ink:#eef0ff;--mute:#9aa0c9;--card:#12152e;--line:#262b54;--bad:#ff6b80;--ok:#5cf0b9}
+html{scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;font-size:19px;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,.num{font-family:Syne,sans-serif;font-weight:800;margin:0}
+#pg{position:fixed;top:0;left:0;height:4px;width:0;background:var(--mint);z-index:50}
+.hero{background:var(--blue);color:#fff;min-height:100vh;display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(20px,4vw,60px);align-items:center;padding:clamp(28px,6vw,80px);position:relative;overflow:hidden}
+@media(max-width:820px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:56px}}
+.hero h1{font-size:clamp(100px,24vw,300px);line-height:.82;letter-spacing:-.05em;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.hero p{font-size:clamp(19px,2.4vw,26px);max-width:24ch;margin:26px 0 0;color:#dfe3ff;line-height:1.4;animation:rise .9s .15s both}
+.tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;animation:rise .9s .3s both}
+.tags span{border:2px solid rgba(255,255,255,.5);border-radius:99px;padding:5px 16px;font-weight:700;font-size:15px}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}}
+.grid{display:grid;grid-template-columns:repeat(16,1fr);gap:clamp(3px,.6vw,7px);max-width:520px;width:100%;justify-self:center;animation:rise 1s .2s both}
+.grid i{aspect-ratio:1;border-radius:22%;background:rgba(255,255,255,.14);transition:background .35s,transform .35s}
+.grid i.on{background:var(--mint);transform:scale(1.04)}
+.gl{grid-column:1/-1;font-weight:700;font-size:14px;color:#dfe3ff;margin-top:8px}
+.scroll{position:absolute;left:clamp(28px,6vw,80px);bottom:26px;font-weight:700;font-size:14px;color:#cfd5ff}
+@media(max-width:820px){.scroll{display:none}}
+main{max-width:1100px;margin:0 auto;padding:0 clamp(20px,5vw,56px)}
+section{padding:clamp(70px,11vw,140px) 0 0}
+h2{font-size:clamp(42px,8.5vw,104px);line-height:.95;letter-spacing:-.035em;margin-bottom:28px}
+section>p{max-width:52ch;color:var(--mute);font-size:clamp(19px,2.2vw,23px)}
+section>p b{color:var(--ink)}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:40px}
+.nums div{border-top:4px solid var(--blue);padding-top:14px}
+.num{font-size:clamp(64px,10vw,116px);line-height:1;color:var(--blue);letter-spacing:-.04em}
+:root[data-theme="dark"] .num{color:var(--mint)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .num{color:var(--mint)}}
+.nums small{display:block;font-size:17px;color:var(--mute);font-weight:500}
+.steps{margin-top:40px;position:relative}
+.st{display:grid;grid-template-columns:clamp(70px,14vw,150px) 1fr;gap:20px;padding:30px 0;border-top:2px solid var(--line);position:relative}
+.st::before{content:"";position:absolute;left:0;top:-2px;height:2px;width:0;background:var(--blue);transition:width 1s}
+.st.in::before{width:100%}
+.st b{font-family:Syne;font-size:clamp(70px,13vw,150px);line-height:.9;color:transparent;-webkit-text-stroke:2px var(--blue)}
+.st h3{font-size:clamp(24px,3.4vw,36px);margin-bottom:6px}
+.st p{margin:0;color:var(--mute);max-width:50ch}
+.band{background:var(--ink);color:#eef0ff;margin:clamp(70px,11vw,140px) 0 0;padding:clamp(60px,9vw,110px) 0}
+:root[data-theme="dark"] .band,.band{background:#0d1030}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .band{background:#12152e}}
+.band main{padding-top:0}.band section{padding:0}
+.band h2{color:#fff}.band section>p{color:#b9bfe6}
+.band section>p b{color:#fff}
+.pr{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:34px}
+.pr div{border:2px solid #2b3160;border-radius:20px;padding:24px}
+.pr h3{font-size:24px;margin-bottom:6px;color:var(--mint)}
+.pr p{margin:0;color:#b9bfe6;font-size:18px}
+.badge{display:inline-block;background:var(--bad);color:#fff;font-weight:700;border-radius:99px;padding:6px 20px;font-size:16px;margin-bottom:24px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+@media(max-width:700px){.two{grid-template-columns:1fr}}
+.card{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:28px}
+.card h3{font-size:28px;margin-bottom:12px}
+.card.y h3{color:var(--ok)}.card.n h3{color:var(--bad)}
+.card ul{margin:0;padding:0;list-style:none}
+.card li{padding:10px 0;border-top:1px solid var(--line);font-weight:500}
+.card li:first-child{border:0}
+.rec{margin-top:18px;padding:22px 26px;border-radius:20px;background:var(--blue);color:#fff;font-weight:500}
+.fin{font-family:Syne;font-weight:800;font-size:clamp(30px,5.4vw,64px);line-height:1.08;letter-spacing:-.03em;max-width:20ch}
+.fin span{color:var(--blue)}
+:root[data-theme="dark"] .fin span{color:var(--mint)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .fin span{color:var(--mint)}}
+footer{max-width:1100px;margin:90px auto 0;padding:26px clamp(20px,5vw,56px) 40px;color:var(--mute);font-size:15px;border-top:2px solid var(--line)}
+.rv{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.st::before{width:100%}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div id="pg"></div>
+<header class="hero">
+<div>
+<h1>MD5</h1>
+<p>Ma’lumotni 128 bitli qisqa qiymatga aylantiradigan xesh algoritm.</p>
+<div class="tags"><span>Kriptografiya</span><span>Xesh funksiya</span><span>RFC 1321</span></div>
+</div>
+<div class="grid" id="gr" aria-hidden="true"><div class="gl">128 bit = 128 ta katak</div></div>
+<div class="scroll">Pastga suring ↓</div>
+</header>
+
+<main>
+<section class="rv">
+<h2>MD5 nima?</h2>
+<p><b>MD5 — xesh funksiya.</b> U istalgan uzunlikdagi ma’lumotni oladi va doim bir xil uzunlikdagi qisqa natija beradi. Bu natija <b>xesh qiymat</b> deyiladi.</p>
+<p>Algoritmni 1991-yilda Ron Rivest yaratgan.</p>
+<div class="nums">
+<div><span class="num" data-n="128">0</span><small>bit: natija uzunligi</small></div>
+<div><span class="num" data-n="512">0</span><small>bit: bir blok o‘lchami</small></div>
+<div><span class="num" data-n="64">0</span><small>qadam: har blok uchun</small></div>
+</div>
+</section>
+
+<section>
+<h2 class="rv">Qanday ishlaydi?</h2>
+<div class="steps">
+<div class="st rv"><b>1</b><div><h3>To‘ldirish</h3><p>Ma’lumot oxiriga qo‘shimcha bitlar qo‘shiladi. Shunda umumiy uzunlik 512 bitga karrali bo‘ladi.</p></div></div>
+<div class="st rv"><b>2</b><div><h3>Bloklarga bo‘lish</h3><p>To‘ldirilgan ma’lumot 512 bitlik bloklarga ajratiladi.</p></div></div>
+<div class="st rv"><b>3</b><div><h3>Aralashtirish</h3><p>Har blok 64 qadamda to‘rtta registr (A, B, C, D) bilan aralashtiriladi. Har qadamda qo‘shish, siljitish va mantiqiy amallar bajariladi.</p></div></div>
+<div class="st rv"><b>4</b><div><h3>Natija</h3><p>To‘rtta registr birlashtiriladi. Hosil bo‘lgan 128 bit 32 ta o‘n oltilik belgi bilan yoziladi.</p></div></div>
+</div>
+</section>
+</main>
+
+<div class="band"><main>
+<section class="rv">
+<h2>Asosiy xossalari</h2>
+<div class="pr">
+<div><h3>Bir tomonlama</h3><p>Xeshdan asl ma’lumotni tiklab bo‘lmaydi.</p></div>
+<div><h3>Aniq natija</h3><p>Bir xil ma’lumot har doim bir xil xesh beradi.</p></div>
+<div><h3>Katta farq</h3><p>Ma’lumotdagi eng kichik o‘zgarish natijani butunlay o‘zgartiradi.</p></div>
+<div><h3>Qat’iy uzunlik</h3><p>Ma’lumot qancha uzun bo‘lsa ham, xesh uzunligi o‘zgarmaydi.</p></div>
+</div>
+</section>
+</main></div>
+
+<main>
+<section class="rv">
+<span class="badge">Kriptografik jihatdan buzilgan</span>
+<h2>Zaifligi</h2>
+<p>2004-yilda MD5 uchun <b>to‘qnashuv</b> topildi. To‘qnashuv — ikki xil ma’lumotning bir xil xesh berishi. Hozir buni oddiy kompyuterda soniyalarda qilish mumkin.</p>
+<p>MD5 juda tez hisoblanadi. Bu parol saqlash uchun kamchilik, chunki hujumchi ham juda tez sinab ko‘radi.</p>
+</section>
+
+<section class="rv">
+<h2>Qayerda ishlatiladi?</h2>
+<div class="two">
+<div class="card y"><h3>Mumkin</h3><ul><li>Fayl tasodifan buzilganini aniqlash</li><li>Takrorlangan fayllarni topish</li></ul></div>
+<div class="card n"><h3>Mumkin emas</h3><ul><li>Raqamli imzo</li><li>Sertifikatlar</li><li>Parol saqlash</li></ul></div>
+</div>
+<div class="rec">Tavsiya: xavfsizlik kerak joyda SHA-256 yoki SHA-3, parollar uchun Argon2.</div>
+</section>
+
+<section class="rv">
+<h2>Xulosa</h2>
+<p class="fin">MD5 oddiy va tez, lekin <span>xavfsiz emas</span>. G‘oyani o‘rganish uchun yaxshi, himoya uchun esa SHA-256 ishlatiladi.</p>
+</section>
+</main>
+<footer>Manbalar: R. Rivest, RFC 1321 (1992); X. Wang va H. Yu, “How to Break MD5 and Other Hash Functions”, 2005; RFC 6151 (2011).</footer>
+
+<script>
+const $=s=>document.querySelector(s),RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const gr=$('#gr'),cells=[];
+for(let i=0;i<128;i++){const c=document.createElement('i');if(Math.random()>.5)c.className='on';gr.insertBefore(c,gr.lastChild);cells.push(c)}
+if(!RM)setInterval(()=>{for(let k=0;k<5;k++)cells[Math.random()*128|0].classList.toggle('on')},140);
+function count(el){const t=+el.dataset.n;if(RM){el.textContent=t;return}const t0=performance.now();(function f(n){const p=Math.min(1,(n-t0)/1100);el.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');e.target.querySelectorAll('[data-n]').forEach(count);io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+addEventListener('scroll',()=>{const d=document.documentElement;$('#pg').style.width=d.scrollTop/(d.scrollHeight-d.clientHeight)*100+'%'},{passive:true});
+</script>
+</body>
+</html>
